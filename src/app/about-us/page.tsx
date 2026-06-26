@@ -49,26 +49,45 @@ export default function AboutUs() {
             <Navbar />
 
             {/* Header / Hero */}
-            <section className="relative bg-gradient-to-br from-[#f0f7ff] via-[#fafaf9] to-[#e0f2fe] border-b border-blue-100/80 text-slate-900 py-24 overflow-hidden">
+            <section className="relative bg-gradient-to-br from-[#f0f7ff] via-[#fafaf9] to-[#e0f2fe] border-b border-blue-100/80 text-slate-900 py-20 lg:py-28 overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute inset-0 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:20px_20px]" />
                 </div>
-                <div className="container relative z-10 text-center">
-                    <motion.h1
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-4xl md:text-5xl font-bold mb-6"
-                    >
-                        Our Commitment to <span className="text-primary-600 font-extrabold">Excellence</span>
-                    </motion.h1>
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                        className="text-slate-700 max-w-2xl mx-auto text-lg md:text-xl font-light"
-                    >
-                        Dedicated to transforming healthcare accessibility in rural India through transparency, technology, and empathy.
-                    </motion.p>
+                <div className="container max-w-7xl relative z-10">
+                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        <div className="text-center lg:text-left space-y-6">
+                            <motion.h1
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight"
+                            >
+                                Our Commitment to <span className="text-primary-600 font-extrabold">Excellence</span>
+                            </motion.h1>
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.2 }}
+                                className="text-slate-700 text-lg md:text-xl font-light leading-relaxed"
+                            >
+                                Dedicated to transforming healthcare accessibility in rural India through transparency, technology, and empathy.
+                            </motion.p>
+                        </div>
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.3, duration: 0.5 }}
+                            className="relative h-64 sm:h-96 lg:h-[420px] rounded-3xl overflow-hidden shadow-2xl border border-blue-100/60"
+                        >
+                            <Image
+                                src="/images/resources/telemedicine-team.jpg"
+                                alt="DigiSwasthya Team and Clinic"
+                                fill
+                                className="object-cover"
+                                priority
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
+                        </motion.div>
+                    </div>
                 </div>
             </section>
 

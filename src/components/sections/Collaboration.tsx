@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, TrendingUp, Building2, Megaphone, HeartHandshake } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -9,9 +10,27 @@ export function Collaboration() {
     const { t } = useLanguage();
 
     const cards = [
-        { number: "01", icon: TrendingUp, title: t("collaboration.card1Title"), description: t("collaboration.card1Desc") },
-        { number: "02", icon: Building2, title: t("collaboration.card2Title"), description: t("collaboration.card2Desc") },
-        { number: "03", icon: Megaphone, title: t("collaboration.card3Title"), description: t("collaboration.card3Desc") },
+        {
+            number: "01",
+            icon: TrendingUp,
+            title: t("collaboration.card1Title"),
+            description: t("collaboration.card1Desc"),
+            image: "/images/media/augnito-partnership-1.jpg"
+        },
+        {
+            number: "02",
+            icon: Building2,
+            title: t("collaboration.card2Title"),
+            description: t("collaboration.card2Desc"),
+            image: "/images/resources/rural-clinic.jpg"
+        },
+        {
+            number: "03",
+            icon: Megaphone,
+            title: t("collaboration.card3Title"),
+            description: t("collaboration.card3Desc"),
+            image: "/images/real-campaign.jpg"
+        },
     ];
 
     return (
@@ -111,20 +130,47 @@ export function Collaboration() {
     );
 }
 
-function CollabCard({ number, title, description, Icon }: { number: string; title: string; description: string; Icon: React.ComponentType<{ className?: string }> }) {
+function CollabCard({
+    number,
+    title,
+    description,
+    Icon,
+    image
+}: {
+    number: string;
+    title: string;
+    description: string;
+    Icon: React.ComponentType<{ className?: string }>;
+    image: string;
+}) {
     return (
-        <div className="group relative h-full bg-white rounded-3xl border border-slate-100 shadow-[0_2px_16px_rgba(15,23,42,0.04)] hover:shadow-[0_18px_50px_-12px_rgba(15,23,42,0.18)] hover:-translate-y-1.5 transition-all duration-300 p-8 overflow-hidden">
-            {/* faint number watermark */}
-            <span className="absolute top-5 right-6 text-6xl font-serif font-bold text-slate-100 group-hover:text-primary-100 transition-colors duration-300 select-none leading-none">
-                {number}
-            </span>
-
-            <div className="relative">
-                <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 text-white flex items-center justify-center shadow-lg shadow-primary-600/25 mb-6 group-hover:scale-105 transition-transform duration-300">
-                    <Icon className="h-7 w-7" />
+        <div className="group relative w-full h-full rounded-3xl bg-white border border-slate-100 shadow-[0_2px_16px_rgba(15,23,42,0.04)] hover:shadow-[0_18px_50px_-12px_rgba(15,23,42,0.18)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col overflow-hidden">
+            {/* Visual header: photo */}
+            <div className="relative h-48 w-full overflow-hidden">
+                <Image
+                    src={image}
+                    alt={title}
+                    fill
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
+                {/* watermark number */}
+                <span className="absolute top-4 right-5 text-4xl font-serif font-bold text-white/50 group-hover:text-white/80 transition-colors duration-300 select-none leading-none">
+                    {number}
+                </span>
+                {/* Floating icon badge */}
+                <div className="absolute -bottom-6 left-5 flex items-center justify-center h-12 w-12 rounded-2xl bg-white text-primary-600 shadow-lg ring-1 ring-black/5 group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
+                    <Icon className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-3">{title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
+            </div>
+
+            <div className="px-6 pt-9 pb-6 flex flex-col flex-grow">
+                <h3 className="text-base font-bold text-slate-900 tracking-tight leading-snug group-hover:text-primary-700 transition-colors mb-2">
+                    {title}
+                </h3>
+                <p className="text-sm text-slate-500 leading-relaxed">
+                    {description}
+                </p>
             </div>
 
             {/* animated accent line */}

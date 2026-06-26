@@ -13,7 +13,7 @@ const stories = [
         role: "ASHA Worker, Nagpur",
         condition: "Severe swelling and pain in leg with no specialist access nearby",
         result: "Connected with Dr. Bhuvnesh Chaturvedi (Bone Specialist) via telemedicine. Swelling reduced, condition under control.",
-        video: "/Videos/Impact stories, Voices from the Ground- Access brought healing, and healing brought hope.Her s.mp4",
+        video: "/Videos/pinki-paware.mp4",
     },
     {
         name: "Bajrang Sony",
@@ -21,7 +21,7 @@ const stories = [
         role: "DigiSwasthya Patient",
         condition: "Suffering from diabetes for over 10 years with no proper medical guidance",
         result: "Received expert consultation through DigiSwasthya. Now managing diabetes with proper medical guidance.",
-        video: "/Videos/🌟 Meet Bajrang Sony, 56, who has been battling diabetes for over a decade. After consulting at .mp4",
+        video: "/Videos/bajrang-sony.mp4",
     },
 ];
 
