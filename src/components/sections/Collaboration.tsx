@@ -1,52 +1,134 @@
-import React from "react";
+"use client";
+
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ArrowRight, TrendingUp, Building2, Megaphone, HeartHandshake } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Collaboration() {
+    const { t } = useLanguage();
+
+    const cards = [
+        { number: "01", icon: TrendingUp, title: t("collaboration.card1Title"), description: t("collaboration.card1Desc") },
+        { number: "02", icon: Building2, title: t("collaboration.card2Title"), description: t("collaboration.card2Desc") },
+        { number: "03", icon: Megaphone, title: t("collaboration.card3Title"), description: t("collaboration.card3Desc") },
+    ];
+
     return (
-        <section className="py-20 bg-white">
-            <div className="container">
+        <section className="relative py-24 bg-gradient-to-b from-white to-slate-50 overflow-hidden">
+            {/* Decorative ambient blobs */}
+            <div className="pointer-events-none absolute -top-24 -right-24 w-[26rem] h-[26rem] bg-primary-100/40 rounded-full blur-3xl" />
+            <div className="pointer-events-none absolute bottom-0 -left-24 w-80 h-80 bg-secondary-100/40 rounded-full blur-3xl" />
+
+            <div className="container relative z-10">
                 {/* Header */}
-                <div className="max-w-2xl mb-14">
-                    <div className="inline-flex items-center gap-2 text-primary-600 text-sm font-semibold uppercase tracking-widest mb-4">
-                        <span className="h-px w-6 bg-primary-600" /> Partner With Us
-                    </div>
-                    <h2 className="font-serif text-3xl md:text-4xl font-bold text-gray-900 leading-snug">
-                        Help us fulfil our mission
-                    </h2>
-                    <p className="mt-4 text-gray-500 leading-relaxed">
-                        Here are some of the ways you can collaborate with DigiSwasthya Foundation.
-                    </p>
+                <div className="text-center max-w-2xl mx-auto mb-16">
+                    <motion.div
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="inline-flex items-center gap-2 bg-primary-50 text-primary-700 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-primary-100 mb-5"
+                    >
+                        <HeartHandshake className="w-3.5 h-3.5" /> {t("collaboration.badge")}
+                    </motion.div>
+                    <motion.h2
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 }}
+                        className="font-serif text-3xl md:text-5xl font-bold text-gray-900 leading-tight"
+                    >
+                        {t("collaboration.heading")}
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 16 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 }}
+                        className="mt-4 text-lg text-gray-500 leading-relaxed"
+                    >
+                        {t("collaboration.subheading")}
+                    </motion.p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <CollabCard
-                        number="01"
-                        title="Impact Investors"
-                        description="We are looking for social/impact investors to provide capital and guidance to scale up. Apart from patient capital, we seek know-how in emerging medical technologies and experiences in implementing public-private partnerships."
-                    />
-                    <CollabCard
-                        number="02"
-                        title="Centre Sponsors"
-                        description="We are seeking sponsors to fund expansion into rural areas and aspirational districts of their choice. The center can be co-branded with the sponsoring brand, making a meaningful social impact while strengthening your brand presence."
-                    />
-                    <CollabCard
-                        number="03"
-                        title="Campaign Sponsors"
-                        description="Companies, trusts, and individuals with a thrust to sponsor specific interventions like breast care detections, girls screening for anemia, newborn baby screening, diabetic screening, and heart screening programs."
-                    />
+                {/* Partner cards */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {cards.map((card, i) => {
+                        const Icon = card.icon;
+                        return (
+                            <motion.div
+                                key={card.number}
+                                initial={{ opacity: 0, y: 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.12, duration: 0.45 }}
+                            >
+                                <CollabCard {...card} Icon={Icon} />
+                            </motion.div>
+                        );
+                    })}
                 </div>
+
+                {/* Closing CTA banner */}
+                <motion.div
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.15, duration: 0.5 }}
+                    className="mt-14 relative rounded-3xl overflow-hidden bg-gradient-to-br from-primary-700 via-primary-600 to-primary-700 px-8 py-10 md:px-14 md:py-12 shadow-xl shadow-primary-900/20"
+                >
+                    {/* texture + glow */}
+                    <div className="absolute inset-0 opacity-[0.12] [background-image:radial-gradient(circle_at_1px_1px,#ffffff_1px,transparent_0)] [background-size:22px_22px]" />
+                    <div className="absolute -top-16 -right-10 w-56 h-56 bg-white/10 rounded-full blur-2xl" />
+
+                    <div className="relative flex flex-col md:flex-row items-center justify-between gap-7">
+                        <div className="text-center md:text-left">
+                            <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
+                                {t("collaboration.ctaHeading")}
+                            </h3>
+                            <p className="text-primary-100 leading-relaxed max-w-xl">
+                                {t("collaboration.ctaText")}
+                            </p>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
+                            <Link
+                                href="/contact-us#message-form"
+                                className="inline-flex items-center justify-center gap-2 bg-white text-primary-700 hover:bg-primary-50 font-bold text-sm px-7 py-3.5 rounded-xl shadow-lg transition-all hover:gap-3 whitespace-nowrap"
+                            >
+                                {t("collaboration.ctaButton")} <ArrowRight className="h-4 w-4" />
+                            </Link>
+                            <Link
+                                href="/donate"
+                                className="inline-flex items-center justify-center gap-2 bg-secondary-500 hover:bg-secondary-600 text-white font-bold text-sm px-7 py-3.5 rounded-xl shadow-lg transition-colors whitespace-nowrap"
+                            >
+                                {t("nav.donate")}
+                            </Link>
+                        </div>
+                    </div>
+                </motion.div>
             </div>
         </section>
     );
 }
 
-function CollabCard({ number, title, description }: { number: string; title: string; description: string }) {
+function CollabCard({ number, title, description, Icon }: { number: string; title: string; description: string; Icon: React.ComponentType<{ className?: string }> }) {
     return (
-        <div className="group border-t-2 border-gray-100 hover:border-primary-500 pt-7 transition-colors duration-300">
-            <div className="text-5xl font-serif font-bold text-gray-300 group-hover:text-primary-300 transition-colors duration-300 mb-4 leading-none">
+        <div className="group relative h-full bg-white rounded-3xl border border-slate-100 shadow-[0_2px_16px_rgba(15,23,42,0.04)] hover:shadow-[0_18px_50px_-12px_rgba(15,23,42,0.18)] hover:-translate-y-1.5 transition-all duration-300 p-8 overflow-hidden">
+            {/* faint number watermark */}
+            <span className="absolute top-5 right-6 text-6xl font-serif font-bold text-slate-100 group-hover:text-primary-100 transition-colors duration-300 select-none leading-none">
                 {number}
+            </span>
+
+            <div className="relative">
+                <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 text-white flex items-center justify-center shadow-lg shadow-primary-600/25 mb-6 group-hover:scale-105 transition-transform duration-300">
+                    <Icon className="h-7 w-7" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-3">{title}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{description}</p>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">{title}</h3>
-            <p className="text-gray-500 leading-relaxed text-sm">{description}</p>
+
+            {/* animated accent line */}
+            <div className="absolute bottom-0 left-0 h-1 w-0 group-hover:w-full bg-gradient-to-r from-primary-500 to-secondary-400 transition-all duration-500 ease-out" />
         </div>
     );
 }

@@ -2,15 +2,16 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { 
-    Stethoscope, 
-    Video, 
-    Megaphone, 
-    Activity, 
-    HeartPulse, 
-    Ambulance, 
-    Coins, 
-    ShieldCheck
+import {
+    Stethoscope,
+    Video,
+    Megaphone,
+    Activity,
+    HeartPulse,
+    Ambulance,
+    Coins,
+    ShieldCheck,
+    Sparkles
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -121,28 +122,51 @@ const FinancialSupportIcon = () => (
 
 // --- INDIVIDUAL SERVICE CARD COMPONENT ---
 
-function ServiceCard({ 
-    service 
-}: { 
-    service: any; 
+function ServiceCard({
+    service
+}: {
+    service: any;
 }) {
     return (
-        <div
-            className="w-full h-[240px] rounded-2xl border bg-white border-slate-100 hover:border-primary-300 hover:shadow-xl hover:shadow-primary-900/5 transition-all duration-300 p-5 flex flex-col items-center justify-center text-center group overflow-hidden"
-        >
-            <div className="flex flex-col items-center transition-transform duration-300 translate-y-6 group-hover:translate-y-0">
-                <div className="mb-3 flex items-center justify-center transition-transform duration-300 group-hover:scale-105 filter drop-shadow-sm">
-                    {service.icon}
+        <div className="group relative w-full h-full rounded-3xl bg-white border border-slate-100 shadow-[0_2px_16px_rgba(15,23,42,0.04)] hover:shadow-[0_18px_50px_-12px_rgba(15,23,42,0.18)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col overflow-hidden">
+            {/* Visual header: real photo where available, otherwise an illustrated icon on a branded gradient */}
+            <div className="relative h-44 w-full overflow-hidden">
+                {service.image ? (
+                    <>
+                        <Image
+                            src={service.image}
+                            alt={service.title}
+                            fill
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
+                    </>
+                ) : (
+                    <div className="relative h-full w-full flex items-center justify-center bg-gradient-to-br from-primary-50 via-[#fffbeb] to-secondary-50">
+                        {/* subtle dotted texture so the illustrated cards feel intentional, not empty */}
+                        <div className="absolute inset-0 opacity-[0.5] [background-image:radial-gradient(circle_at_1px_1px,#cbd5e1_1px,transparent_0)] [background-size:16px_16px]" />
+                        <div className="relative transition-transform duration-500 group-hover:scale-110 drop-shadow-sm">
+                            {service.icon}
+                        </div>
+                    </div>
+                )}
+                {/* Floating icon badge — consistent identity across photo and illustrated cards */}
+                <div className="absolute -bottom-6 left-5 flex items-center justify-center h-12 w-12 rounded-2xl bg-white text-primary-600 shadow-lg ring-1 ring-black/5 group-hover:bg-primary-600 group-hover:text-white transition-colors duration-300">
+                    {service.smallIcon}
                 </div>
-                <h3 className="text-xs md:text-sm font-bold text-slate-800 font-sans tracking-tight leading-snug group-hover:text-primary-700 transition-colors max-w-[200px]">
+            </div>
+
+            <div className="px-6 pt-9 pb-6 flex flex-col flex-grow">
+                <h3 className="text-base font-bold text-slate-900 tracking-tight leading-snug group-hover:text-primary-700 transition-colors mb-2">
                     {service.title}
                 </h3>
-            </div>
-            <div className="opacity-0 max-h-0 overflow-hidden translate-y-4 group-hover:opacity-100 group-hover:max-h-[120px] group-hover:translate-y-0 transition-all duration-300 mt-0 group-hover:mt-3 pointer-events-none">
-                <p className="text-[11px] md:text-xs text-slate-500 leading-relaxed max-w-[200px] mx-auto">
+                <p className="text-sm text-slate-500 leading-relaxed">
                     {service.description}
                 </p>
             </div>
+
+            {/* Animated accent line on hover */}
+            <div className="h-1 w-0 group-hover:w-full bg-gradient-to-r from-primary-500 to-secondary-400 transition-all duration-500 ease-out" />
         </div>
     );
 }
@@ -158,6 +182,7 @@ export function Services() {
             description: t("services.items.primaryCheckup.description"),
             icon: <PrimaryCheckupIcon />,
             smallIcon: <Stethoscope className="w-5 h-5" />,
+            image: "/images/resources/rural-clinic.jpg",
             delay: 0.05
         },
         {
@@ -165,6 +190,7 @@ export function Services() {
             description: t("services.items.teleconsultation.description"),
             icon: <TeleconsultationIcon />,
             smallIcon: <Video className="w-5 h-5" />,
+            image: "/images/resources/consultation.jpg",
             delay: 0.1
         },
         {
@@ -172,6 +198,7 @@ export function Services() {
             description: t("services.items.awarenessCamps.description"),
             icon: <AwarenessCampsIcon />,
             smallIcon: <Megaphone className="w-5 h-5" />,
+            image: "/images/impact-community.jpg",
             delay: 0.15
         },
         {
@@ -179,6 +206,7 @@ export function Services() {
             description: t("services.items.diagnosticsEMR.description"),
             icon: <DiagnosticsEMRIcon />,
             smallIcon: <Activity className="w-5 h-5" />,
+            image: "/images/resources/telemedicine-team.jpg",
             delay: 0.2
         },
         {
@@ -186,6 +214,7 @@ export function Services() {
             description: t("services.items.referrals.description"),
             icon: <ReferralsIcon />,
             smallIcon: <HeartPulse className="w-5 h-5" />,
+            image: "/images/resources/referrals.png",
             delay: 0.25
         },
         {
@@ -193,6 +222,7 @@ export function Services() {
             description: t("services.items.convenienceSupport.description"),
             icon: <ConvenienceSupportIcon />,
             smallIcon: <Ambulance className="w-5 h-5" />,
+            image: "/images/ds-community-outreach.jpg",
             delay: 0.3
         },
         {
@@ -200,6 +230,7 @@ export function Services() {
             description: t("services.items.financialSupport.description"),
             icon: <FinancialSupportIcon />,
             smallIcon: <Coins className="w-5 h-5" />,
+            image: "/images/resources/financial-support.png",
             delay: 0.35
         }
     ];
@@ -208,18 +239,22 @@ export function Services() {
     const row2 = services.slice(4, 7);
 
     return (
-        <section className="py-24 bg-white overflow-hidden" id="services">
-            <div className="container max-w-7xl">
+        <section className="relative py-24 bg-gradient-to-b from-white via-slate-50/70 to-white overflow-hidden" id="services">
+            {/* Decorative ambient blobs for depth */}
+            <div className="pointer-events-none absolute -top-32 -right-32 w-[28rem] h-[28rem] bg-primary-100/40 rounded-full blur-3xl" />
+            <div className="pointer-events-none absolute top-1/2 -left-40 w-96 h-96 bg-secondary-100/30 rounded-full blur-3xl" />
+
+            <div className="container max-w-7xl relative z-10">
 
                 {/* Header */}
-                <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 text-primary-600 text-sm font-semibold uppercase tracking-widest"
+                        className="inline-flex items-center gap-2 bg-primary-50 text-primary-700 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-primary-100"
                     >
-                        <span className="h-px w-6 bg-primary-600" /> {t("services.badge")}
+                        <Sparkles className="w-3.5 h-3.5" /> {t("services.badge")}
                     </motion.div>
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
@@ -246,7 +281,7 @@ export function Services() {
                 </div>
 
                 {/* Service Cards: Row 1 (4 items) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 items-stretch">
                     {row1.map((service, idx) => (
                         <motion.div
                             key={idx}
@@ -254,16 +289,17 @@ export function Services() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: service.delay, duration: 0.4 }}
+                            className="h-full"
                         >
-                            <ServiceCard 
-                                service={service} 
+                            <ServiceCard
+                                service={service}
                             />
                         </motion.div>
                     ))}
                 </div>
 
                 {/* Service Cards: Row 2 (3 items centered on desktop) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20 lg:w-3/4 mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20 lg:w-3/4 mx-auto items-stretch">
                     {row2.map((service, idx) => {
                         return (
                             <motion.div
@@ -272,10 +308,10 @@ export function Services() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: service.delay, duration: 0.4 }}
-                                className={idx === 2 ? "sm:col-span-2 sm:max-w-md sm:mx-auto sm:w-full lg:col-span-1" : ""}
+                                className={idx === 2 ? "h-full sm:col-span-2 sm:max-w-md sm:mx-auto sm:w-full lg:col-span-1" : "h-full"}
                             >
-                                <ServiceCard 
-                                    service={service} 
+                                <ServiceCard
+                                    service={service}
                                 />
                             </motion.div>
                         );
@@ -283,16 +319,17 @@ export function Services() {
                 </div>
 
                 {/* Impact Band */}
-                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#f0f7ff] via-[#f8fafc] to-[#e0f2fe] border border-blue-100/80">
+                <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#f0f7ff] via-[#f8fafc] to-[#e0f2fe] border border-blue-100/80 shadow-xl shadow-primary-900/5">
                     <div className="grid lg:grid-cols-2 gap-0 items-stretch">
                         {/* Photo side */}
-                        <div className="relative min-h-[340px]">
+                        <div className="relative min-h-[340px] overflow-hidden group">
                             <Image
-                                src="/images/real-campaign.jpg"
+                                src="/images/ds-medical-camp.jpg"
                                 alt="DigiSwasthya Community Impact"
                                 fill
-                                className="object-cover"
+                                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                             />
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#f8fafc]/20" />
                         </div>
                         {/* Content side */}
                         <div className="p-10 md:p-14 flex flex-col justify-center space-y-6">

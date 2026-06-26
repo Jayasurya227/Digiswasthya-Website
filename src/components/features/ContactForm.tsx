@@ -3,40 +3,55 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
-import { Clock, Phone, Send, CheckCircle2 } from "lucide-react";
+import { Send, CheckCircle2, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ContactActions } from "./ContactActions";
+import { useLanguage } from "@/context/LanguageContext";
 
-type ContactType = "Donor" | "Volunteer" | "General Inquiry";
+type ContactType = "General Inquiry" | "Donor" | "Volunteer" | "Patient / Need Help";
 
 interface FormData {
     name: string;
-    email: string;
-    subject: string;
+    email?: string;
+    phone?: string;
+    subject?: string;
     message: string;
     contactType: ContactType;
-    organization?: string;
-    partnershipInterest?: string;
     location?: string;
     assistanceNeeded?: string;
     consent: boolean;
 }
 
+const VOLUNTEER_FORM_URL = "https://forms.gle/GvjUfAoMBKvqTNcXA";
+
 export function ContactForm() {
+    const { t } = useLanguage();
     const [submitted, setSubmitted] = useState(false);
-    const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm<FormData>({
+    const [submitError, setSubmitError] = useState(false);
+    const { register, handleSubmit, watch, getValues, formState: { errors, isSubmitting } } = useForm<FormData>({
         defaultValues: {
             contactType: "General Inquiry"
         }
     });
 
     const contactType = watch("contactType");
+    const isPatient = contactType === "Patient / Need Help";
+    const isVolunteer = contactType === "Volunteer";
 
     const onSubmit = async (data: FormData) => {
-        console.log("Form submitted:", data);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        setSubmitted(true);
+        setSubmitError(false);
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+            if (!res.ok) throw new Error("Request failed");
+            setSubmitted(true);
+        } catch (err) {
+            console.error("Contact form submission failed:", err);
+            setSubmitError(true);
+        }
     };
 
     if (submitted) {
@@ -51,16 +66,16 @@ export function ContactForm() {
                         <CheckCircle2 className="h-16 w-16 text-primary-600" />
                     </div>
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900">Message Sent!</h3>
+                <h3 className="text-3xl font-bold text-gray-900">{t("contactForm.successTitle")}</h3>
                 <p className="text-gray-600 max-w-md mx-auto">
-                    Thank you for reaching out to DigiSwasthya. Our team has received your inquiry and will get back to you within 24–48 hours.
+                    {t("contactForm.successBody")}
                 </p>
                 <Button
                     variant="outline"
                     onClick={() => setSubmitted(false)}
                     className="mt-4"
                 >
-                    Send Another Message
+                    {t("contactForm.sendAnother")}
                 </Button>
             </motion.div>
         );
@@ -72,30 +87,63 @@ export function ContactForm() {
                 <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
                     <div className="p-8 lg:p-12">
                         <div className="mb-10 border-b border-gray-100 pb-8 text-center">
-                            <h3 className="text-3xl font-black text-gray-900 tracking-tight mb-2">Send us a Message</h3>
-                            <p className="text-gray-500 font-medium">Prefer direct communication? Call or message us on WhatsApp.</p>
+                            <h3 className="text-3xl font-black text-gray-900 tracking-tight mb-2">{t("contactForm.heading")}</h3>
+                            <p className="text-gray-500 font-medium">{t("contactForm.subheading")}</p>
                         </div>
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                            <div className="space-y-1.5">
+                                <label className="text-sm font-bold text-gray-900">{t("contactForm.contactingAs")}</label>
+                                <select
+                                    {...register("contactType")}
+                                    className="w-full border border-gray-300 rounded-xl p-3 text-sm text-gray-900 font-medium focus:ring-2 focus:ring-primary-500 transition-all outline-none appearance-none bg-white shadow-sm"
+                                >
+                                    <option value="General Inquiry">{t("contactForm.typeGeneral")}</option>
+                                    <option value="Donor">{t("contactForm.typeDonor")}</option>
+                                    <option value="Volunteer">{t("contactForm.typeVolunteer")}</option>
+                                    <option value="Patient / Need Help">{t("contactForm.typePatient")}</option>
+                                </select>
+                            </div>
+
+                            <AnimatePresence>
+                                {isPatient && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        className="overflow-hidden"
+                                    >
+                                        <div className="bg-primary-50 border border-primary-100 rounded-xl p-5 mb-6">
+                                            <p className="text-sm font-semibold text-primary-900 mb-3">{t("contactForm.patientHelpNote")}</p>
+                                            <ContactActions />
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div className="space-y-1.5">
-                                    <label className="text-sm font-bold text-gray-900">Full Name</label>
+                                    <label className="text-sm font-bold text-gray-900">{t("contactForm.fullName")}</label>
                                     <input
-                                        {...register("name", { required: "Name is required" })}
-                                        placeholder="John Doe"
+                                        {...register("name", { required: t("contactForm.nameRequired") })}
+                                        placeholder={t("contactForm.namePlaceholder")}
                                         className="w-full border border-gray-300 rounded-xl p-3 text-sm text-gray-900 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all outline-none bg-white font-medium"
                                     />
                                     {errors.name && <p className="text-xs text-red-500 font-medium">{errors.name.message}</p>}
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-sm font-bold text-gray-900">Email Address</label>
+                                    <label className="text-sm font-bold text-gray-900">{t("contactForm.email")}</label>
                                     <input
                                         {...register("email", {
-                                            required: "Email is required",
-                                            pattern: { value: /^\S+@\S+$/i, message: "Invalid email" }
+                                            validate: (value) => {
+                                                const phone = getValues("phone");
+                                                if (!value && !phone) return t("contactForm.emailOrPhoneRequired");
+                                                if (value && !/^\S+@\S+$/i.test(value)) return t("contactForm.emailInvalid");
+                                                return true;
+                                            }
                                         })}
                                         type="email"
-                                        placeholder="john@example.com"
+                                        placeholder={t("contactForm.emailPlaceholder")}
                                         className="w-full border border-gray-300 rounded-xl p-3 text-sm text-gray-900 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all outline-none bg-white font-medium"
                                     />
                                     {errors.email && <p className="text-xs text-red-500 font-medium">{errors.email.message}</p>}
@@ -103,39 +151,73 @@ export function ContactForm() {
                             </div>
 
                             <div className="space-y-1.5">
-                                <label className="text-sm font-bold text-gray-900">I am contacting as:</label>
-                                <select
-                                    {...register("contactType")}
-                                    className="w-full border border-gray-300 rounded-xl p-3 text-sm text-gray-900 font-medium focus:ring-2 focus:ring-primary-500 transition-all outline-none appearance-none bg-white shadow-sm"
-                                >
-                                    <option value="General Inquiry">General Inquiry</option>
-                                    <option value="Donor">Donor</option>
-                                    <option value="Volunteer">Volunteer</option>
-                                </select>
+                                <label className="text-sm font-bold text-gray-900">
+                                    {t("contactForm.phone")} <span className="text-gray-400 font-normal">{t("contactForm.phoneOptionalUnlessNoEmail")}</span>
+                                </label>
+                                <input
+                                    {...register("phone", {
+                                        validate: (value) => {
+                                            const email = getValues("email");
+                                            if (!value && !email) return t("contactForm.emailOrPhoneRequired");
+                                            return true;
+                                        }
+                                    })}
+                                    placeholder={t("contactForm.phonePlaceholder")}
+                                    className="w-full border border-gray-300 rounded-xl p-3 text-sm text-gray-900 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all outline-none bg-white font-medium"
+                                />
+                                {errors.phone && <p className="text-xs text-red-500 font-medium">{errors.phone.message}</p>}
                             </div>
 
-
+                            {isPatient && (
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-bold text-gray-900">{t("contactForm.locationLabel")}</label>
+                                        <input
+                                            {...register("location")}
+                                            placeholder={t("contactForm.locationPlaceholder")}
+                                            className="w-full border border-gray-300 rounded-xl p-3 text-sm text-gray-900 focus:ring-2 focus:ring-primary-500 outline-none bg-white font-medium"
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm font-bold text-gray-900">{t("contactForm.assistanceLabel")}</label>
+                                        <input
+                                            {...register("assistanceNeeded")}
+                                            placeholder={t("contactForm.assistancePlaceholder")}
+                                            className="w-full border border-gray-300 rounded-xl p-3 text-sm text-gray-900 focus:ring-2 focus:ring-primary-500 outline-none bg-white font-medium"
+                                        />
+                                    </div>
+                                </div>
+                            )}
 
                             <div className="space-y-1.5">
-                                <label className="text-sm font-bold text-gray-900">Subject</label>
+                                <label className="text-sm font-bold text-gray-900">{t("contactForm.subject")}</label>
                                 <input
-                                    {...register("subject", { required: "Subject is required" })}
-                                    placeholder="Brief summary of your inquiry"
+                                    {...register("subject")}
+                                    placeholder={t("contactForm.subjectPlaceholder")}
                                     className="w-full border border-gray-300 rounded-xl p-3 text-sm text-gray-900 focus:ring-2 focus:ring-primary-500 outline-none bg-white font-medium shadow-sm"
                                 />
-                                {errors.subject && <p className="text-xs text-red-500 font-medium">{errors.subject.message}</p>}
                             </div>
 
                             <div className="space-y-1.5">
-                                <label className="text-sm font-bold text-gray-900">Message</label>
+                                <label className="text-sm font-bold text-gray-900">{t("contactForm.message")}</label>
                                 <textarea
-                                    {...register("message", { required: "Message is required" })}
-                                    placeholder="How can we help you?"
+                                    {...register("message", { required: t("contactForm.messageRequired") })}
+                                    placeholder={t("contactForm.messagePlaceholder")}
                                     rows={4}
                                     className="w-full border border-gray-300 rounded-xl p-3 text-sm text-gray-900 focus:ring-2 focus:ring-primary-500 outline-none resize-none bg-white font-medium shadow-sm"
                                 />
                                 {errors.message && <p className="text-xs text-red-500 font-medium">{errors.message.message}</p>}
                             </div>
+
+                            {isVolunteer && (
+                                <p className="text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-lg p-3">
+                                    {t("contactForm.volunteerNote")}{" "}
+                                    <a href={VOLUNTEER_FORM_URL} target="_blank" rel="noopener noreferrer" className="text-primary-600 font-semibold hover:underline">
+                                        {t("contactForm.volunteerNoteLink")}
+                                    </a>
+                                    {t("contactForm.volunteerNoteEnd")}
+                                </p>
+                            )}
 
                             <div className="flex items-start gap-2">
                                 <input
@@ -145,9 +227,19 @@ export function ContactForm() {
                                     className="mt-1 h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
                                 />
                                 <label htmlFor="consent-form" className="text-xs text-gray-900 font-medium">
-                                    I consent to Digiswasthya collecting my details through this form.
+                                    {t("contactForm.consent")}
                                 </label>
                             </div>
+
+                            {submitError && (
+                                <div className="flex items-start gap-2.5 bg-red-50 border border-red-100 rounded-xl p-4">
+                                    <AlertTriangle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
+                                    <div>
+                                        <p className="text-sm font-bold text-red-700">{t("contactForm.errorTitle")}</p>
+                                        <p className="text-xs text-red-600 mt-0.5">{t("contactForm.errorBody")}</p>
+                                    </div>
+                                </div>
+                            )}
 
                             <motion.div
                                 whileHover={{ y: -2 }}
@@ -163,7 +255,7 @@ export function ContactForm() {
                                     ) : (
                                         <>
                                             <Send className="h-5 w-5" />
-                                            Submit Inquiry
+                                            {t("contactForm.submit")}
                                         </>
                                     )}
                                 </Button>

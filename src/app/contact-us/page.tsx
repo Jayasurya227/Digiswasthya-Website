@@ -3,8 +3,8 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 import { ContactActions } from "@/components/features/ContactActions";
 import { ContactForm } from "@/components/features/ContactForm";
 
@@ -28,58 +28,71 @@ export default function ContactUs() {
                     <ContactActions />
                 </div>
 
-                <div className="grid lg:grid-cols-3 gap-12">
-                    {/* Secondary Info */}
+                <div className="grid md:grid-cols-2 gap-8">
+                    {/* General Support */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="space-y-8"
+                        className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm"
                     >
-                        <div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-4 tracking-tight border-l-4 border-primary-500 pl-4 uppercase">General Support</h3>
-                            <div className="space-y-6 text-gray-600 mt-6">
-                                <div className="flex items-center gap-4 group">
-                                    <div className="bg-primary-50 p-3 rounded-full group-hover:bg-primary-100 transition-colors">
-                                        <Mail className="h-5 w-5 text-primary-600" />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <span className="text-xs font-bold text-gray-400 uppercase">Email Us</span>
-                                        <span className="font-bold text-gray-900">info@digiswasthya.org</span>
-                                    </div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-6 tracking-tight border-l-4 border-primary-500 pl-4 uppercase">General Support</h3>
+                        <div className="space-y-5 text-gray-600">
+                            <div className="flex items-center gap-4 group">
+                                <div className="bg-primary-50 p-3 rounded-full group-hover:bg-primary-100 transition-colors flex-shrink-0">
+                                    <Mail className="h-5 w-5 text-primary-600" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xs font-bold text-gray-400 uppercase">Email Us</span>
+                                    <span className="font-bold text-gray-900">info@digiswasthya.org</span>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-4 group">
+                                <div className="bg-primary-50 p-3 rounded-full group-hover:bg-primary-100 transition-colors flex-shrink-0">
+                                    <Phone className="h-5 w-5 text-primary-600" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xs font-bold text-gray-400 uppercase">Call / WhatsApp</span>
+                                    <span className="font-bold text-gray-900">+91 83184 24800</span>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-4 group">
+                                <div className="bg-primary-50 p-3 rounded-full group-hover:bg-primary-100 transition-colors flex-shrink-0">
+                                    <MapPin className="h-5 w-5 text-primary-600" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xs font-bold text-gray-400 uppercase">Head Office</span>
+                                    <span className="font-bold text-gray-900 text-sm leading-relaxed">Kali Road, Kathaicha Chauraha, Nath Nagar, Sant Kabir Nagar, Uttar Pradesh - 272176</span>
                                 </div>
                             </div>
                         </div>
-
                     </motion.div>
 
-                    {/* Centre Addresses */}
-                    <div className="lg:col-span-2">
-                        <h3 className="text-xl font-bold text-gray-900 mb-6 tracking-tight border-l-4 border-primary-500 pl-4 uppercase">Our Telemedicine Centres</h3>
-                        <div className="grid md:grid-cols-2 gap-4">
-                            {[
-                                { name: "DS1: Sant Kabir Nagar", addr: "Kali Road, Kathaicha Chauraha, Nath Nagar, Sant Kabir Nagar, Uttar Pradesh - 272176" },
-                                { name: "DS2: Muzaffarpur", addr: "Deoria Road, Nawanagar Nizamat, Sahebganj, Muzaffarpur, Bihar - 843125" },
-                                { name: "DS3: Pune", addr: "Bhawadi, Ambegaon, Distt. Pune, Maharashtra - 410512" },
-                                { name: "DS4: Palghar", addr: "407, A wing, Sadiya Apartment, 90th Ft. Rd. Oswal Nagari, Nalasopara East, Palghar, MH- 401209" },
-                                { name: "DS5: Uttar Pradesh", addr: "Near Bharat Gas Agency, Asharafpur, Uttar Pradesh 272162" },
-                            ].map((c, i) => (
-                                <motion.div
-                                    key={i}
-                                    whileHover={{ y: -2 }}
-                                    className="bg-white p-5 rounded-2xl border border-gray-100 flex gap-4 shadow-sm hover:shadow-md transition-all group"
-                                >
-                                    <div className="bg-primary-50 p-2.5 h-10 w-10 rounded-xl group-hover:bg-primary-600 group-hover:text-white transition-all flex-shrink-0 flex items-center justify-center">
-                                        <MapPin className="h-5 w-5 text-primary-600 group-hover:text-white" />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-gray-900 text-sm">{c.name}</h4>
-                                        <p className="text-xs text-gray-500 mt-1 leading-relaxed">{c.addr}</p>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
+                    {/* Find a centre near you → Our Network */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <Link
+                            href="/network"
+                            className="group block h-full bg-gradient-to-br from-primary-600 to-primary-700 text-white p-8 rounded-3xl shadow-lg hover:shadow-2xl hover:shadow-primary-900/20 transition-all overflow-hidden relative"
+                        >
+                            <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
+                            <div className="relative">
+                                <div className="bg-white/15 h-12 w-12 rounded-2xl flex items-center justify-center mb-5">
+                                    <MapPin className="h-6 w-6 text-white" />
+                                </div>
+                                <h3 className="text-2xl font-black tracking-tight mb-2">Looking for a centre near you?</h3>
+                                <p className="text-primary-100 leading-relaxed mb-6">
+                                    We run a growing network of telemedicine centres across Uttar Pradesh, Bihar and Maharashtra. Find your nearest one with directions on the map.
+                                </p>
+                                <span className="inline-flex items-center gap-2 font-bold bg-white text-primary-700 px-5 py-2.5 rounded-xl group-hover:gap-3 transition-all">
+                                    Explore Our Network <ArrowRight className="h-4 w-4" />
+                                </span>
+                            </div>
+                        </Link>
+                    </motion.div>
                 </div>
 
                 <div className="mt-20">

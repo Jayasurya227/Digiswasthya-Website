@@ -20,7 +20,10 @@ import {
     Clock,
     RefreshCcw,
     ClipboardList,
-    ArrowRight
+    ArrowRight,
+    Cpu,
+    Smartphone,
+    TrendingUp
 } from "lucide-react";
 
 const fadeIn = {
@@ -261,11 +264,106 @@ export default function AboutUs() {
                             </motion.div>
                         ))}
                     </div>
+
+                    {/* Our Care Model — how the approach works in practice */}
+                    <div className="mt-20 pt-16 border-t border-gray-200/70">
+                        <motion.div
+                            initial={{ opacity: 0, y: 12 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, ease: "easeOut" }}
+                            className="text-center max-w-3xl mx-auto mb-14"
+                        >
+                            <h3 className="text-2xl md:text-4xl font-black text-gray-900 mb-4 tracking-tight">Our Care Model</h3>
+                            <p className="text-gray-600 text-lg font-medium">How every DigiSwasthya centre delivers safe, continuous, and trusted care — designed for the realities of rural India.</p>
+                        </motion.div>
+
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+                            {[
+                                {
+                                    title: "Bringing Healthcare Closer to Communities",
+                                    lead: "Trusted care, within your community.",
+                                    icon: Users,
+                                    color: "text-blue-600",
+                                    bg: "bg-blue-50",
+                                    desc: "A trained coordinator welcomes each patient, records their history and vital signs, and connects them with a qualified doctor over live video — followed by a digital prescription, counselling, and a clear follow-up plan, all without travelling long distances."
+                                },
+                                {
+                                    title: "Delivering Better Care Through Technology",
+                                    lead: "Technology strengthens care — it never replaces it.",
+                                    icon: Cpu,
+                                    color: "text-indigo-600",
+                                    bg: "bg-indigo-50",
+                                    desc: "Doctors instantly review a patient's past consultations, diagnoses, and medications, while AI summarises histories, highlights key clinical information, and checks prescriptions for interactions before they are issued — so clinicians can focus on the patient. AI enhances clinical judgement; it never replaces it."
+                                },
+                                {
+                                    title: "Caring Beyond a Single Consultation",
+                                    lead: "Continuity, not isolated visits.",
+                                    icon: Activity,
+                                    color: "text-emerald-600",
+                                    bg: "bg-emerald-50",
+                                    desc: "Chronic conditions like diabetes and hypertension need ongoing care. Patients receive regular follow-ups and a complete longitudinal health record, and coordinators reach out to those who miss appointments — turning episodic visits into lasting care relationships."
+                                },
+                                {
+                                    title: "Understanding the Whole Person",
+                                    lead: "Health is shaped by more than symptoms.",
+                                    icon: HeartHandshake,
+                                    color: "text-rose-600",
+                                    bg: "bg-rose-50",
+                                    desc: "Our model considers family health history, household conditions, water and sanitation, and nutrition — giving clinicians a fuller picture, helping identify risks earlier within families, and supporting healthier communities."
+                                },
+                                {
+                                    title: "Built for Rural India",
+                                    lead: "Designed for real-world conditions.",
+                                    icon: Smartphone,
+                                    color: "text-cyan-600",
+                                    bg: "bg-cyan-50",
+                                    desc: "Our systems work reliably even where connectivity is limited — coordinators keep registering patients and recording information offline, with data securely synced once back online. The platform runs in English and Hindi on affordable Android devices."
+                                },
+                                {
+                                    title: "Protecting Every Patient's Trust",
+                                    lead: "Privacy is fundamental to how we work.",
+                                    icon: ShieldCheck,
+                                    color: "text-amber-600",
+                                    bg: "bg-amber-50",
+                                    desc: "Patient information is encrypted, securely stored, and accessible only to authorised healthcare professionals involved in a patient's care. Strong security and controlled access keep confidentiality and dignity central to every consultation."
+                                },
+                                {
+                                    title: "Scaling Quality Healthcare",
+                                    lead: "Every improvement reaches every community.",
+                                    icon: TrendingUp,
+                                    color: "text-purple-600",
+                                    bg: "bg-purple-50",
+                                    desc: "As our network grows, new clinical guidance, enhanced safety features, improved AI capabilities, and better workflows roll out across all centres — so patients receive a consistent standard of care wherever they seek treatment."
+                                }
+                            ].map((item, i) => (
+                                <motion.div
+                                    key={i}
+                                    variants={cardVariants}
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    viewport={{ once: true }}
+                                    whileHover={{ y: -2, boxShadow: "0 8px 24px rgba(0,0,0,0.07)" }}
+                                    transition={{ type: "tween", duration: 0.2 }}
+                                    className={`bg-white p-8 rounded-3xl shadow-sm border border-gray-100 group cursor-default ${i === 6 ? "lg:col-start-2" : ""}`}
+                                >
+                                    <div className={`w-14 h-14 ${item.bg} rounded-2xl flex items-center justify-center mb-6 transition-transform duration-200 group-hover:scale-[1.05]`}>
+                                        <item.icon className={`${item.color} w-7 h-7`} />
+                                    </div>
+                                    <h4 className="text-lg font-black text-gray-900 mb-2 leading-tight">{item.title}</h4>
+                                    <p className={`text-sm font-bold mb-3 ${item.color}`}>{item.lead}</p>
+                                    <p className="text-gray-500 leading-relaxed text-sm font-medium">
+                                        {item.desc}
+                                    </p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </section>
 
             {/* 3. Sandeep's Story Section */}
-            <section className="py-16 bg-white overflow-hidden">
+            <section id="sandeeps-story" className="py-16 bg-white overflow-hidden scroll-mt-24">
                 <div className="container">
                     <div className="max-w-5xl mx-auto">
                         <div className="grid lg:grid-cols-[1.6fr_1fr] gap-12 items-start">

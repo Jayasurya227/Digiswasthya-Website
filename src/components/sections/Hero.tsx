@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useSpring, useTransform } from "framer-motion"
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { ContactActions } from "@/components/features/ContactActions";
 
 function Counter({ value, suffix = "" }: { value: number; suffix?: string }) {
     const count = useSpring(0, { stiffness: 50, damping: 30 });
@@ -191,12 +192,23 @@ export function Hero() {
                         >
                             {t("nav.donate")}
                         </Link>
-                        <a
-                            href="/contact-us"
+                        <Link
+                            href="/network"
                             className="inline-block bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold text-base px-8 py-3.5 rounded-md transition-colors duration-200"
                         >
                             {t("hero.bookConsultation")}
-                        </a>
+                        </Link>
+                    </motion.div>
+
+                    {/* Low-friction patient path: skip the page entirely, go straight to WhatsApp */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.7, delay: 0.4, ease: "easeOut" }}
+                        className="mt-5"
+                    >
+                        <ContactActions variant="compact" />
+                        <p className="text-gray-300 text-xs mt-2">{t("hero.chatNowLabel")}</p>
                     </motion.div>
                 </div>
             </div>

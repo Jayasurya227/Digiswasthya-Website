@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { ContactActions } from "@/components/features/ContactActions";
 import { useLanguage } from "@/context/LanguageContext";
@@ -16,12 +17,23 @@ type FormData = {
 
 export function Footer() {
     const { t } = useLanguage();
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>();
+    const [sent, setSent] = useState(false);
+    const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormData>();
 
     const onSubmit = async (data: FormData) => {
-        // Ideally send to API
-        console.log("Form Data:", data);
-        alert(t("footer.success"));
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ...data, contactType: "General Inquiry" }),
+            });
+            if (!res.ok) throw new Error("Request failed");
+            setSent(true);
+            reset();
+        } catch (err) {
+            console.error("Footer form submission failed:", err);
+            alert(t("footer.error"));
+        }
     };
 
     return (
@@ -80,6 +92,12 @@ export function Footer() {
                     {/* Contact Form */}
                     <div>
                         <h4 className="text-lg font-semibold text-white mb-4">{t("footer.sendMessage")}</h4>
+                        {sent ? (
+                            <div className="flex items-center gap-2.5 bg-primary-900/40 border border-primary-700/50 rounded-lg p-3 text-sm text-primary-200">
+                                <CheckCircle2 className="h-5 w-5 text-primary-400 flex-shrink-0" />
+                                {t("footer.success")}
+                            </div>
+                        ) : (
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
                             <div>
                                 <input
@@ -122,6 +140,7 @@ export function Footer() {
                                 {isSubmitting ? t("footer.form.sending") : t("footer.form.submit")}
                             </Button>
                         </form>
+                        )}
                     </div>
                 </div>
 

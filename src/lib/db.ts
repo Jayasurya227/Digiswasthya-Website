@@ -29,6 +29,18 @@ export interface SubscriberRecord {
     createdAt?: any;
 }
 
+export interface InquiryRecord {
+    name: string;
+    email?: string;
+    phone?: string;
+    contactType: string;
+    subject?: string;
+    message: string;
+    location?: string;
+    assistanceNeeded?: string;
+    language?: string;
+}
+
 /**
  * Saves a successful donation record to Firestore
  */
@@ -93,6 +105,27 @@ export async function unsubscribeUser(email: string) {
         }
     } catch (error) {
         console.error("[Firestore Error] Failed to unsubscribe:", error);
+        throw error;
+    }
+}
+
+/**
+ * Saves an inbound contact/inquiry form submission (general, donor, volunteer, or patient help requests)
+ */
+export async function saveInquiry(record: InquiryRecord) {
+    try {
+        const inquiriesCol = collection(db, "inquiries");
+        const cleanRecord = Object.fromEntries(
+            Object.entries(record).filter(([, value]) => value !== undefined)
+        );
+        const docRef = await addDoc(inquiriesCol, {
+            ...cleanRecord,
+            createdAt: serverTimestamp()
+        });
+        console.log(`[Firestore] Saved inquiry: ${docRef.id}`);
+        return docRef.id;
+    } catch (error) {
+        console.error("[Firestore Error] Failed to save inquiry:", error);
         throw error;
     }
 }

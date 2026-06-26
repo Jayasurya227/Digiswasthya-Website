@@ -4,9 +4,9 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { Services } from "@/components/sections/Services";
+import { FounderStoryTeaser } from "@/components/sections/FounderStoryTeaser";
 import { BeneficiaryStories } from "@/components/sections/BeneficiaryStories";
 import { Collaboration } from "@/components/sections/Collaboration";
-import { TelemedicineCentres } from "@/components/sections/TelemedicineCentres";
 import { AwardSection } from "@/components/sections/AwardSection";
 import { VideoHighlight } from "@/components/sections/VideoHighlight";
 import { useLanguage } from "@/context/LanguageContext";
@@ -18,12 +18,12 @@ export default function Home() {
     <main className="min-h-screen bg-[#f4f7f5]">
       <Navbar />
       <Hero />
+      <FounderStoryTeaser />
+      <Services />
       <BeneficiaryStories />
       <AwardSection />
       <VideoHighlight />
-      <Services />
       <Collaboration />
-      <TelemedicineCentres />
 
       {/* Social Media Follow Section */}
       <section className="py-12 bg-[#fdf8f3] border-t border-[#e8ddd0]">
