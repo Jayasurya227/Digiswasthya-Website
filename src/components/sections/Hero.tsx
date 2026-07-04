@@ -213,25 +213,41 @@ export function Hero() {
                 </div>
             </div>
 
-            {/* Stats bar — anchored to bottom, clean separator */}
+            {/* Stats bar — anchored to bottom, clickable bridge link with pulsing indicator */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
-                className="absolute bottom-0 left-0 right-0 z-10 bg-black/40 backdrop-blur-sm border-t border-white/10"
+                className="absolute bottom-0 left-0 right-0 z-10 bg-black/40 hover:bg-black/60 backdrop-blur-sm border-t border-white/10 transition-colors duration-300 group/stats"
             >
-                <div className="container mx-auto px-6 py-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                    {stats.map((stat, i) => (
-                        <div key={i} className="text-center md:text-left">
-                            <div className="text-2xl md:text-3xl font-bold text-secondary-400">
-                                <Counter value={stat.value} suffix={stat.suffix} />
+                <Link href="/our-impact" className="block cursor-pointer py-6 px-6 relative">
+                    {/* Pulsing Highlight Badge centered on the top border */}
+                    <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-secondary-500 text-white text-[9px] font-black uppercase tracking-widest px-3.5 py-1 rounded-full shadow-md border border-secondary-400 flex items-center gap-1.5 group-hover/stats:bg-secondary-600 transition-colors duration-300">
+                        <span className="relative flex h-1.5 w-1.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white"></span>
+                        </span>
+                        {t("nav.impact") ? `${t("nav.impact")} - Click to View Details` : "Click to view detailed charts"}
+                    </div>
+
+                    <div className="container mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 relative">
+                        {stats.map((stat, i) => (
+                            <div key={i} className="text-center md:text-left">
+                                <div className="text-2xl md:text-3xl font-bold text-secondary-400 group-hover/stats:text-secondary-300 transition-colors">
+                                    <Counter value={stat.value} suffix={stat.suffix} />
+                                </div>
+                                <div className="text-xs text-gray-300 uppercase tracking-wide mt-0.5">
+                                    {stat.label}
+                                </div>
                             </div>
-                            <div className="text-xs text-gray-300 uppercase tracking-wide mt-0.5">
-                                {stat.label}
-                            </div>
+                        ))}
+                        
+                        {/* Hover Hint Link */}
+                        <div className="absolute right-0 bottom-[-14px] opacity-0 group-hover/stats:opacity-100 transition-opacity duration-300 text-[10px] font-bold text-secondary-400 tracking-widest hidden lg:block uppercase">
+                            {t("nav.impact")} &rarr;
                         </div>
-                    ))}
-                </div>
+                    </div>
+                </Link>
             </motion.div>
         </section>
     );

@@ -22,7 +22,7 @@ export function FounderStoryTeaser() {
                     >
                         <div className="relative w-48 h-48 lg:w-64 lg:h-64 rounded-2xl overflow-hidden shadow-xl border-4 border-white">
                             <Image
-                                src="/images/sandeep-founder.jpg"
+                                src="/images/sandeep-founder.png"
                                 alt="Sandeep Kumar, Founder, DigiSwasthya Foundation"
                                 fill
                                 className="object-cover"

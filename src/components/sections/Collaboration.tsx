@@ -112,9 +112,13 @@ export function Collaboration() {
                         <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
                             <Link
                                 href="/contact-us#message-form"
-                                className="inline-flex items-center justify-center gap-2 bg-white text-primary-700 hover:bg-primary-50 font-bold text-sm px-7 py-3.5 rounded-xl shadow-lg transition-all hover:gap-3 whitespace-nowrap"
+                                className="relative inline-flex items-center justify-center gap-2.5 bg-white text-primary-700 hover:bg-primary-50 font-bold text-sm px-7 py-3.5 rounded-xl shadow-lg transition-all hover:gap-3.5 whitespace-nowrap"
                             >
-                                {t("collaboration.ctaButton")} <ArrowRight className="h-4 w-4" />
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-600"></span>
+                                </span>
+                                {t("collaboration.ctaButton")} <ArrowRight className="h-4 w-4 text-primary-600" />
                             </Link>
                             <Link
                                 href="/donate"

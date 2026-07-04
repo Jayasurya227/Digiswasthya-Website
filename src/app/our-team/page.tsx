@@ -55,13 +55,13 @@ const advisory = [
 ];
 
 const board = [
-    { name: "Mr Sandeep Kumar", role: "Founder & CEO", image: "/images/sandeep-founder.jpg" },
+    { name: "Mr Sandeep Kumar", role: "Founder & CEO", image: "/images/sandeep-founder.png" },
     { name: "Dr Leena Saxena", role: "Executive Director", image: "/images/dr-leena-saxena.png" },
     { name: "Mr Shubham Badgujar", role: "Executive Director", image: "/images/shubham-badgujar.png" }
 ];
 
 const core = [
-    { name: "Mr. Sandeep Kumar", role: "Founder and CEO", image: "/images/sandeep-founder.jpg" },
+    { name: "Mr. Sandeep Kumar", role: "Founder and CEO", image: "/images/sandeep-founder.png" },
     { name: "Dr. Leena Saxena", role: "MBBS, Executive Director", image: "/images/dr-leena-saxena.png" },
     { name: "Ms. Shashvi Thakur", role: "Head Program", image: "/images/shashvi-thakur.jpg" },
     { name: "Mr. Ashish Tiwari", role: "Head of Strategy and Digital Transformation", image: "/images/ashish-tiwari.jpg" },
@@ -69,7 +69,7 @@ const core = [
 ];
 
 const founding = [
-    { name: "Mr Sandeep Kumar", role: "Founder", image: "/images/sandeep-founder.jpg" },
+    { name: "Mr Sandeep Kumar", role: "Founder", image: "/images/sandeep-founder.png" },
     { name: "Km Mandakini", role: "Co-Founder", image: "/images/km-mandakini.jpg" },
     { name: "Mr Santosh", role: "Co-Founder", image: "/images/mr-santosh-cofounder.jpg" }
 ];

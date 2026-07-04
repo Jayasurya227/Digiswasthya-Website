@@ -9,6 +9,7 @@ import { BeneficiaryStories } from "@/components/sections/BeneficiaryStories";
 import { Collaboration } from "@/components/sections/Collaboration";
 import { AwardSection } from "@/components/sections/AwardSection";
 import { VideoHighlight } from "@/components/sections/VideoHighlight";
+import { ImpactTeaser } from "@/components/sections/ImpactTeaser";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
       <FounderStoryTeaser />
       <Services />
       <BeneficiaryStories />
+      <ImpactTeaser />
       <AwardSection />
       <VideoHighlight />
       <Collaboration />

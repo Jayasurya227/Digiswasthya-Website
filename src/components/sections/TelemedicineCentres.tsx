@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { MapPin, ExternalLink, Phone, MessageCircle, Stethoscope, ClipboardCheck } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -85,30 +86,44 @@ export function TelemedicineCentres() {
                 </div>
 
                 {/* How It Works — patient journey, so addresses below aren't just a wall of text */}
-                <div className="mb-16">
-                    <h3 className="font-serif text-xl md:text-2xl font-bold text-gray-900 mb-8">
-                        {t("centres.howItWorksTitle")}
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-4 relative">
-                        {JOURNEY_STEPS.map((step, i) => {
-                            const Icon = step.icon;
-                            return (
-                                <div key={step.key} className="relative flex flex-col items-start">
-                                    <div className="flex items-center gap-3 mb-3">
-                                        <div className="flex items-center justify-center h-11 w-11 rounded-full bg-primary-600 text-white font-serif font-bold shrink-0">
-                                            {i + 1}
+                <div className="mb-20 bg-white rounded-3xl p-8 md:p-12 border border-gray-100 shadow-sm">
+                    <div className="grid lg:grid-cols-12 gap-12 items-center">
+                        <div className="lg:col-span-7 space-y-8">
+                            <h3 className="font-serif text-2xl md:text-3xl font-bold text-gray-900">
+                                {t("centres.howItWorksTitle")}
+                            </h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                                {JOURNEY_STEPS.map((step, i) => {
+                                    const Icon = step.icon;
+                                    return (
+                                        <div key={step.key} className="space-y-2">
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex items-center justify-center h-9 w-9 rounded-full bg-primary-600 text-white font-bold text-xs shrink-0">
+                                                    {i + 1}
+                                                </div>
+                                                <Icon className="h-4.5 w-4.5 text-primary-600" />
+                                            </div>
+                                            <h4 className="text-base font-bold text-gray-900">
+                                                {t(`centres.${step.key}Title`)}
+                                            </h4>
+                                            <p className="text-sm text-gray-500 leading-relaxed">
+                                                {t(`centres.${step.key}Desc`)}
+                                            </p>
                                         </div>
-                                        <Icon className="h-5 w-5 text-primary-600 hidden sm:block" />
-                                    </div>
-                                    <h4 className="text-sm font-bold text-gray-900 mb-1.5">
-                                        {t(`centres.${step.key}Title`)}
-                                    </h4>
-                                    <p className="text-sm text-gray-500 leading-relaxed">
-                                        {t(`centres.${step.key}Desc`)}
-                                    </p>
-                                </div>
-                            );
-                        })}
+                                    );
+                                })}
+                            </div>
+                        </div>
+                        <div className="lg:col-span-5 flex justify-center">
+                            <div className="relative w-full max-w-[360px] aspect-square rounded-full overflow-hidden border-4 border-white shadow-lg">
+                                <Image
+                                    src="/images/telemedicine-model.jpg"
+                                    alt="DigiSwasthya Telemedicine Care Model"
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
 

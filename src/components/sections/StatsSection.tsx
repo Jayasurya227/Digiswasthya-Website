@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { StatsCounter } from "@/components/features/StatsCounter";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 const DEFAULT_STATS = {
     patientsServed: 117644,
@@ -40,6 +44,9 @@ export function StatsSection() {
         fetchStats();
     }, []);
 
+    const { language } = useLanguage();
+    const currentLang = (language === "en" || language === "hi") ? language : "en";
+
     return (
         <section className="py-16 bg-primary-900 text-white">
             <div className="container">
@@ -58,6 +65,18 @@ export function StatsSection() {
                     <StatsCounter value={stats.campsCHCPHC} label="Health Camps at CHCs/PHCs" />
                     <StatsCounter value={stats.expertDoctors} label="Expert Doctors Onboard" />
                     <StatsCounter value={stats.livesImpacted} label="Lives Impacted" suffix="+" />
+
+                    {/* Bridge CTA link to Our Impact page */}
+                    <div className="xl:col-span-6 flex justify-center mt-10">
+                        <Button asChild variant="secondary" className="gap-2 group">
+                            <Link href="/our-impact">
+                                {currentLang === "hi" 
+                                    ? "विस्तृत विकास और पहुँच रिपोर्ट देखें" 
+                                    : "Explore Growth & Reach Reports"}
+                                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                            </Link>
+                        </Button>
+                    </div>
                 </div>
             </div>
         </section>

@@ -82,7 +82,7 @@ export function ContactForm() {
     }
 
     return (
-        <section className="py-20 bg-gray-100/80" id="message-form">
+        <section className="py-20 bg-gray-100/80 scroll-mt-28" id="message-form">
             <div className="container mx-auto px-4">
                 <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
                     <div className="p-8 lg:p-12">
