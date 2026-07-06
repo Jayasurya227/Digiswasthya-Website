@@ -51,7 +51,7 @@ export function BarChart({
                                     initial={{ width: 0 }}
                                     whileInView={{ width: `${percentage}%` }}
                                     viewport={{ once: true }}
-                                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: index * 0.05 }}
+                                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay: index * 0.05 }}
                                     className={`h-full rounded-full bg-gradient-to-r ${barGradientFrom} ${barGradientTo}`}
                                 />
                             </div>

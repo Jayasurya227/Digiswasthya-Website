@@ -76,7 +76,7 @@ export function DonutChart({ data, title }: DonutChartProps) {
                                 initial={{ strokeDasharray: `0 ${circumference}` }}
                                 whileInView={{ strokeDasharray: `${slice.strokeLength} ${circumference}` }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: slice.index * 0.05 }}
+                                transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay: slice.index * 0.05 }}
                                 className="cursor-pointer transition-all duration-200 origin-center"
                                 onMouseEnter={() => setActiveIndex(slice.index)}
                                 onMouseLeave={() => setActiveIndex(null)}
