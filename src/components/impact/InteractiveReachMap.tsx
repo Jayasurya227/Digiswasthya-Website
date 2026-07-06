@@ -158,7 +158,7 @@ export function InteractiveReachMap() {
                     <div className="lg:col-span-7 flex justify-center items-center relative min-h-[500px]">
                         <svg 
                             viewBox="0 0 612 696" 
-                            className="w-full max-w-[540px] h-auto drop-shadow-md select-none"
+                            className="w-full max-w-[380px] h-auto drop-shadow-md select-none"
                         >
                             {/* India States Paths */}
                             {indiaStates.map((state) => {
